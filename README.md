@@ -8,6 +8,6 @@ Run "npm start"
 
 # Import GeoDB.sql on local Postgresql to load used database
 
-# Kindly see also test credential below to login on the app:
+# See also test credential below to login on the app (for testing):
 username: sample
 password: admin123
