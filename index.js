@@ -18,6 +18,7 @@ app.use(
 
 app.get('/auth-endpoint', auth, db.authEndpoint)
 app.post('/save-history', db.saveHistory)
+app.post('/get-history', db.getHistory)
 app.post('/login', db.login)
 
 app.get('/', (request, response) => {

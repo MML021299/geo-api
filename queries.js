@@ -10,24 +10,35 @@ const pool = new Pool({
 })
 
 const getUserById = (req, res) => {
-  const id = parseInt(request.params.id)
+  const id = parseInt(req.params.id)
 
   pool.query('SELECT * FROM users WHERE id = $1', [id], (error, results) => {
     if (error) {
       throw error
     }
-    response.status(200).json(results.rows)
+    res.status(200).json(results.rows)
   })
 }
 
 const saveHistory = (req, res) => {
-  const { history } = req.body
+  const { history, userId } = req.body
 
-  pool.query('INSERT INTO history (ip_address) VALUES ($1)', [history], (error, results) => {
+  pool.query('INSERT INTO history (ip_address, user_id) VALUES ($1, $2)', [history, userId], (error, results) => {
     if (error) {
       throw error
     }
-    res.status(201).send(`User added with ID: ${results.insertId}`)
+    res.status(201).send(`IP History added with ID: ${results.insertId}`)
+  })
+}
+
+const getHistory = (req, res) => {
+  const { userId } = req.body
+
+  pool.query('SELECT * FROM history WHERE user_id = $1', [userId], (error, results) => {
+    if (error) {
+      throw error
+    }
+    res.status(200).json(results.rows)
   })
 }
 
@@ -76,6 +87,7 @@ const authEndpoint = async (req, res) => {
 module.exports = {
   getUserById,
   saveHistory,
+  getHistory,
   login,
   authEndpoint
 }
