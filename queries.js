@@ -31,6 +31,17 @@ const saveHistory = (req, res) => {
   })
 }
 
+const deleteHistory = (req, res) => {
+  const { ip, userId } = req.body
+
+  pool.query('DELETE FROM history WHERE ip_address = $1 AND user_id =$2', [ip, userId], (error, results) => {
+    if (error) {
+      throw error
+    }
+    res.status(201).send(`IP History deleted: ${ip}`)
+  })
+}
+
 const getHistory = (req, res) => {
   const { userId } = req.body
 
@@ -87,6 +98,7 @@ const authEndpoint = async (req, res) => {
 module.exports = {
   getUserById,
   saveHistory,
+  deleteHistory,
   getHistory,
   login,
   authEndpoint
